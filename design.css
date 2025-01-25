@@ -132,3 +132,20 @@ body{
   text-transform: uppercase;
   margin: 0.94rem 0 1.3rem;
 }
+
+.wrapper .input-box .generate-key-btn,
+.wrapper .input-box .load-key-btn {
+  width: calc(50% - 8px); 
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #4285F4;
+  font-size: 1rem;
+  padding: 0.75rem 0;
+  border-radius: 5px;
+  text-transform: uppercase;
+  margin: 0.5rem 2px; /* Adjust spacing between buttons */
+  transition: background 0.3s ease;
+}
+
