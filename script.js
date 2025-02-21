@@ -1,3 +1,6 @@
+// import randomWords from "random-sentence";
+// import randomWords from "random-words";
+const randomWords = require("random-words");
 // Selecting elements
 const lengthSlider = document.querySelector(".pass-length input"),
   options = document.querySelectorAll(".option input"),
@@ -10,6 +13,48 @@ const lengthSlider = document.querySelector(".pass-length input"),
   fileNameInput = document.querySelector(".file-name-input"),
   encryptFileInput = document.getElementById("encrypt-file"),
   encryptBtns = document.querySelectorAll(".encrypt-decrypt button");
+
+  const tabs = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  // Paraphrasing elements 
+const charRange = document.getElementById("charRange");
+const lengthValue = document.getElementById("length-value");
+const capitalizeToggle = document.getElementById("capitalize-toggle");
+const generatedSentence = document.getElementById("generated-sentence");
+const copySentenceBtn = document.getElementById("copy-sentence");
+const refreshSentenceBtn = document.getElementById("refresh-sentence");
+
+  // switch tabs : 
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const targetTabId = tab.dataset.tab; // Get the target tab ID from data-tab attribute
+        const targetTab = document.getElementById(targetTabId); // Get the target tab element
+
+        if (targetTab) {
+            tabs.forEach(t => t.classList.remove('active')); // Remove active class from all tabs
+            tabContents.forEach(tc => tc.classList.remove('active')); // Remove active class from all tab contents
+
+            tab.classList.add('active'); // Add active class to the clicked tab
+            targetTab.classList.add('active'); // Add active class to the corresponding tab content
+        } else {
+            console.error(`Tab with id "${targetTabId}" not found.`); // Handle the case where the tab is not found
+        }
+    });
+});
+
+// Function to generate a sentence
+const generateSentence = () => {
+  const wordCount = parseInt(charRange.value); // Get word count from range
+  const words = randomWords(wordCount); // Generate words using random-words library
+  let sentence = words.join(" "); // Join words into a sentence
+
+  if (capitalizeToggle.checked) {
+      sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1); // Capitalize first letter
+  }
+
+  generatedSentence.value = sentence; // Set the generated sentence in the input box
+};
 
 const characters = {
   lowercase: "abcdefghijklmnopqrstuvwxyz",
@@ -226,6 +271,8 @@ const loadKey = () => {
   input.click();
 };
 
+
+
 // Event listeners
 copyIcon.addEventListener("click", copyPassword);
 lengthSlider.addEventListener("input", updateSlider);
@@ -235,5 +282,25 @@ loadKeyBtn.addEventListener("click", loadKey);
 encryptBtns[0].addEventListener("click", encryptAndSavePassword);
 encryptBtns[1].addEventListener("click", decryptPasswordFromFile);
 
+// Event listener for character range change
+charRange.addEventListener("input", () => {
+  lengthValue.textContent = charRange.value; // Update displayed character count
+  generateSentence(); // Generate a new sentence
+});
+
+// Event listener for copy button
+copySentenceBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(generatedSentence.value)
+      .then(() => {
+          copySentenceBtn.textContent = "Copied!";
+          setTimeout(() => copySentenceBtn.textContent = "Copy Sentence", 2000); // Reset button text
+      })
+      .catch(err => console.error("Failed to copy: ", err));
+});
+
+// Event listener for refresh button
+refreshSentenceBtn.addEventListener("click", generateSentence);
+
 // Initialize slider
 updateSlider();
+generateSentence();

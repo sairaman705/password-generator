@@ -1,0 +1,16 @@
+{
+  "name": "pwd",
+  "version": "1.0.0",
+  "description": "for random pwd gen",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node script.js"
+  },
+  "author": "sairam",
+  "license": "ISC",
+  "dependencies": {
+    "random-sentence": "^1.0.4",
+    "random-words": "^2.0.1"
+  }
+}
