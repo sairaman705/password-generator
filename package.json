@@ -10,6 +10,7 @@
   "author": "sairam",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.5.0",
     "random-sentence": "^1.0.4",
     "random-words": "^2.0.1"
   }

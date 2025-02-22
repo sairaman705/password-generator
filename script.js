@@ -1,7 +1,4 @@
-// import randomWords from "random-sentence";
-// import randomWords from "random-words";
-const randomWords = require("random-words");
-// Selecting elements
+
 const lengthSlider = document.querySelector(".pass-length input"),
   options = document.querySelectorAll(".option input"),
   copyIcon = document.querySelector(".input-box span"),
@@ -25,6 +22,14 @@ const generatedSentence = document.getElementById("generated-sentence");
 const copySentenceBtn = document.getElementById("copy-sentence");
 const refreshSentenceBtn = document.getElementById("refresh-sentence");
 
+// random sentences :-
+const subjects = ["The cat", "A scientist", "The programmer", "An artist", "A traveler", "The student"];
+const verbs = ["discovers", "creates", "explores", "analyzes", "builds", "observes"];
+const adjectives = ["amazing", "intriguing", "complex", "unexpected", "fascinating", "mysterious"];
+const objects = ["a new algorithm", "a hidden treasure", "a beautiful painting", "a futuristic invention", "an ancient manuscript", "a secret code"];
+const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+
   // switch tabs : 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -45,15 +50,26 @@ const refreshSentenceBtn = document.getElementById("refresh-sentence");
 
 // Function to generate a sentence
 const generateSentence = () => {
-  const wordCount = parseInt(charRange.value); // Get word count from range
-  const words = randomWords(wordCount); // Generate words using random-words library
-  let sentence = words.join(" "); // Join words into a sentence
+  const wordCount = parseInt(charRange.value); // Get the word count from the slider
+  let sentence = [];
 
-  if (capitalizeToggle.checked) {
-      sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1); // Capitalize first letter
+  for (let i = 0; i < wordCount; i++) {
+    // Cycle through different types of words to maintain structure
+    if (i % 4 === 0) {
+      sentence.push(getRandomItem(subjects));
+    } else if (i % 4 === 1) {
+      sentence.push(getRandomItem(verbs));
+    } else if (i % 4 === 2) {
+      sentence.push(getRandomItem(adjectives));
+    } else {
+      sentence.push(getRandomItem(objects));
+    }
   }
 
-  generatedSentence.value = sentence; // Set the generated sentence in the input box
+  let finalSentence = sentence.join(" ") + "."; // Join words to form a sentence
+  finalSentence = finalSentence.charAt(0).toUpperCase() + finalSentence.slice(1); // Capitalize the first letter
+
+  generatedSentence.value = finalSentence;
 };
 
 const characters = {
